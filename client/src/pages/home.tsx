@@ -1,25 +1,47 @@
-import { Helmet } from "react-helmet";
-import UpdateForm from "@/components/update-form";
+import { useEffect, useState } from "react";
+import LegalInfoForm from "@/components/LegalInfoForm";
+import AuthTokenForm from "@/components/AuthTokenForm";
 
-export default function Home() {
+const Home = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  
+  useEffect(() => {
+    document.title = "Update PAN/GSTIN Information | Livspace";
+    
+    // Check if token exists
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+  
+  const handleTokenSaved = () => {
+    setIsAuthenticated(true);
+  };
+  
   return (
-    <div className="bg-gray-50 text-gray-900 min-h-screen">
-      <Helmet>
-        <title>Update PAN/GSTIN Information</title>
-        <meta name="description" content="Update your project's PAN and/or GSTIN details through our easy-to-use interface." />
-        <meta property="og:title" content="Update PAN/GSTIN Information" />
-        <meta property="og:description" content="Update your project's PAN and/or GSTIN information easily and securely." />
-        <meta property="og:type" content="website" />
-      </Helmet>
-      
-      <div className="container mx-auto px-4 py-8 max-w-lg">
-        <header className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Update PAN/GSTIN Information</h1>
-          <p className="text-gray-600">Update your project's PAN and/or GSTIN details</p>
-        </header>
-
-        <UpdateForm />
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-slate-100">
+      <div className="w-full max-w-md">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold text-slate-800">Update Legal Information</h1>
+          <p className="mt-2 text-slate-600">Update PAN and/or GSTIN details for your project</p>
+        </div>
+        
+        {/* Auth Token or Main Form */}
+        {isAuthenticated ? (
+          <LegalInfoForm />
+        ) : (
+          <AuthTokenForm onTokenSaved={handleTokenSaved} />
+        )}
+        
+        {/* Footer */}
+        <div className="mt-8 text-center text-slate-500 text-sm">
+          <p>© {new Date().getFullYear()} Livspace. All rights reserved.</p>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Home;
