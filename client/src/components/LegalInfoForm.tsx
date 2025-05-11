@@ -48,7 +48,7 @@ const LegalInfoForm = () => {
       // Auto hide success message after 5 seconds
       setTimeout(() => {
         setSuccessMessage(null);
-      }, 5000);
+      }, 3000);
     },
     onError: (error: Error) => {
       setErrorMessage(error.message || "There was an error updating the information. Please try again.");
@@ -57,7 +57,7 @@ const LegalInfoForm = () => {
       // Auto hide error message after 5 seconds
       setTimeout(() => {
         setErrorMessage(null);
-      }, 5000);
+      }, 3000);
     },
   });
 
